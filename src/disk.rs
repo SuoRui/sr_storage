@@ -1,23 +1,25 @@
 mod hdd;
 
 pub fn init() -> Result<(), &'static str> {
+    hdd::init_hdd()?;
     Ok(())
 }
 
-pub enum DisKType {
+pub enum DiskType {
     HDD,
     SSD,
 }
 
-pub fn create_new_disk(disk_type: DisKType) -> Result<(), &'static str> {
+pub fn create_new_disk(disk_type: DiskType, size: u64) -> Result<u32, &'static str> {
     match disk_type {
-        DisKType::HDD => {
+        DiskType::HDD => {
             println!("Start create a HDD disk");
-            Ok(())
+            let disk_id = hdd::create_hdd(size)?;
+            Ok(disk_id)
         }
-        DisKType::SSD => {
+        DiskType::SSD => {
             println!("Start create a SSD disk");
-            Ok(())
+            Ok(0)
         }
     }
 }
@@ -28,14 +30,22 @@ mod tests {
 
     #[test]
     fn test_create_hdd() {
-        if let Err(e) = create_new_disk(super::DisKType::HDD) {
+        if let Err(e) = init() {
             assert!(false, "{}", e);
+        }
+
+        match create_new_disk(DiskType::HDD, 1024 * 1024 * 1024) {
+            Ok(id) => assert_eq!(0, id),
+            Err(e) => assert!(false, "{}", e),
         }
     }
 
     #[test]
     fn test_create_ssd() {
-        if let Err(e) = create_new_disk(super::DisKType::SSD) {
+        if let Err(e) = init() {
+            assert!(false, "{}", e);
+        }
+        if let Err(e) = create_new_disk(DiskType::SSD, 1024 * 1024 * 1024) {
             assert!(false, "{}", e);
         }
     }

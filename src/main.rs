@@ -23,8 +23,8 @@ fn main() {
     mod_init![disk];
 
     println!("Done!!!");
-    let sleep_time = time::Duration::from_secs(1);
-    loop {
-        thread::sleep(sleep_time);
-    }
+    // let sleep_time = time::Duration::from_secs(1);
+    // loop {
+    //     thread::sleep(sleep_time);
+    // }
 }
