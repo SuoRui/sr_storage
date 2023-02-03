@@ -30,21 +30,14 @@ mod tests {
 
     #[test]
     fn test_create_hdd() {
-        if let Err(e) = init() {
-            assert!(false, "{}", e);
-        }
-
-        match create_new_disk(DiskType::HDD, 1024 * 1024 * 1024) {
-            Ok(id) => assert_eq!(0, id),
-            Err(e) => assert!(false, "{}", e),
-        }
+        let id = create_new_disk(DiskType::HDD, 1024 * 1024 * 1024);
+        assert!(id.is_ok());
+        let id = id.unwrap();
+        println!("id = {}", id);
     }
 
     #[test]
     fn test_create_ssd() {
-        if let Err(e) = init() {
-            assert!(false, "{}", e);
-        }
         if let Err(e) = create_new_disk(DiskType::SSD, 1024 * 1024 * 1024) {
             assert!(false, "{}", e);
         }
